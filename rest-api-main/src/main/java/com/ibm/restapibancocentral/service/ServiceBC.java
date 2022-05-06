@@ -1,6 +1,6 @@
 package com.ibm.restapibancocentral.service;
 
-import com.ibm.restapibancocentral.entities.DivLiqURL;
+import com.ibm.restapibancocentral.entities.URLDiv;
 import com.ibm.restapibancocentral.entities.DadosDividaLiquida;
 import com.ibm.restapibancocentral.exeception.BadRequestException;
 import com.ibm.restapibancocentral.repository.DividaLiquidaBCRepository;
@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class DividaLiquidaBCService {
+public class ServiceBC {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -46,7 +46,7 @@ public class DividaLiquidaBCService {
     }
 
     @Transactional
-    public List<DadosDividaLiquida> saveApi(DivLiqURL div) {
+    public List<DadosDividaLiquida> saveApi(URLDiv div) {
 
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);

@@ -14,7 +14,7 @@ import java.util.*;
 @DataJpaTest
 @DisplayName("Tests for divida Repository")
 @Log4j2
-public class DadosDividaLiquidaRepositoryTest {
+public class RepositoryTest {
 
     @Autowired
     private DividaLiquidaBCRepository dividaLiquidaBCRepository;

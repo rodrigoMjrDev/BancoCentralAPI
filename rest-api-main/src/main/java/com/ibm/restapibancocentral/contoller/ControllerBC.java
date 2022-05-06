@@ -1,8 +1,8 @@
 package com.ibm.restapibancocentral.contoller;
 
-import com.ibm.restapibancocentral.entities.DivLiqURL;
+import com.ibm.restapibancocentral.entities.URLDiv;
 import com.ibm.restapibancocentral.entities.DadosDividaLiquida;
-import com.ibm.restapibancocentral.service.DividaLiquidaBCService;
+import com.ibm.restapibancocentral.service.ServiceBC;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,11 +24,11 @@ import java.util.List;
 @RestController
 @RequestMapping("dividaliquidabc/")
 @RequiredArgsConstructor
-public class DividaLiquidaBCController {
+public class ControllerBC {
 
-    private final DividaLiquidaBCService dividaService;
+    private final ServiceBC dividaService;
 
-    Logger log = LoggerFactory.getLogger(DividaLiquidaBCService.class);
+    Logger log = LoggerFactory.getLogger(ServiceBC.class);
 
     //Chamando API - A URL está declarada na(o) package/classe Service/DividaLiquidaBCService
     @GetMapping(path = "/api")
@@ -40,7 +40,7 @@ public class DividaLiquidaBCController {
 
     //save api - URL será passado no body
     @PostMapping(path = "/saveapi")
-    public ResponseEntity<List<DadosDividaLiquida>> saveApi(@RequestBody @Valid DivLiqURL div) {
+    public ResponseEntity<List<DadosDividaLiquida>> saveApi(@RequestBody @Valid URLDiv div) {
         return ResponseEntity.ok(dividaService.saveApi(div));
     }
 
@@ -103,8 +103,8 @@ public class DividaLiquidaBCController {
 
     @DeleteMapping(path = "/{id}")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "When Divida Does Not Exist in The Database")
+            @ApiResponse(responseCode = "204", description = "Operação OK"),
+            @ApiResponse(responseCode = "400", description = "Divida não existente no banco de dados")
     })
     public ResponseEntity<Void> delete(@PathVariable long id) {
         dividaService.delete(id);

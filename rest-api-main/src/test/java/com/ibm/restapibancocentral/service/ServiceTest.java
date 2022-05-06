@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
-class DadosDividaLiquidaServiceTest {
+class ServiceTest {
 
     @InjectMocks
-    private DividaLiquidaBCService dividaLiquidaBCService;
+    private ServiceBC serviceBC;
     @Mock
     private DividaLiquidaBCRepository dividaRepositoryMock;
 
@@ -80,7 +80,7 @@ class DadosDividaLiquidaServiceTest {
     void listAll_ReturnsListOfDvidaInsidePageObject_WhenSuccessful(){
         Double expectedValue = DividaLiquidaBCCreator.createValidDivida().getValor();
 
-        Page<DadosDividaLiquida> dividaPage = dividaLiquidaBCService.listPageable(PageRequest.of(1,1));
+        Page<DadosDividaLiquida> dividaPage = serviceBC.listPageable(PageRequest.of(1,1));
 
         Assertions.assertThat(dividaPage).isNotNull();
 
@@ -97,7 +97,7 @@ class DadosDividaLiquidaServiceTest {
     void listAllNonPageable_ReturnsListOfDivida_WhenSuccessful(){
         Double expectedValue = DividaLiquidaBCCreator.createValidDivida().getValor();
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.listAll();
+        List<DadosDividaLiquida> divida = serviceBC.listAll();
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -127,7 +127,7 @@ class DadosDividaLiquidaServiceTest {
     void findByIdOrThrowBadRequestException_ReturnsDivida_WhenSuccessful(){
         Long expectedId = DividaLiquidaBCCreator.createValidDivida().getId();
 
-        DadosDividaLiquida divida = dividaLiquidaBCService.findByIdOrThrowBadRequestException(1);
+        DadosDividaLiquida divida = serviceBC.findByIdOrThrowBadRequestException(1);
 
         Assertions.assertThat(divida).isNotNull();
 
@@ -141,7 +141,7 @@ class DadosDividaLiquidaServiceTest {
                 .thenReturn(Optional.empty());
 
         Assertions.assertThatExceptionOfType(BadRequestException.class)
-                .isThrownBy(() -> dividaLiquidaBCService.findByIdOrThrowBadRequestException(1));
+                .isThrownBy(() -> serviceBC.findByIdOrThrowBadRequestException(1));
     }
 
     @Test
@@ -149,7 +149,7 @@ class DadosDividaLiquidaServiceTest {
     void findByValor_ReturnsListOfADivida_WhenSuccessful(){
         Double expectedValue = DividaLiquidaBCCreator.createValidDivida().getValor();
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.findByValor(2.22);
+        List<DadosDividaLiquida> divida = serviceBC.findByValor(2.22);
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -165,7 +165,7 @@ class DadosDividaLiquidaServiceTest {
         BDDMockito.when(dividaRepositoryMock.findByValor(ArgumentMatchers.anyDouble()))
                 .thenReturn(Collections.emptyList());
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.findByValor(2.22);
+        List<DadosDividaLiquida> divida = serviceBC.findByValor(2.22);
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -179,7 +179,7 @@ class DadosDividaLiquidaServiceTest {
         BDDMockito.when(dividaRepositoryMock.findByValor2(ArgumentMatchers.anyDouble()))
                 .thenReturn(Collections.emptyList());
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.findByValor2(2.22);
+        List<DadosDividaLiquida> divida = serviceBC.findByValor2(2.22);
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -194,7 +194,7 @@ class DadosDividaLiquidaServiceTest {
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.findByData(new java.sql.Date(df.parse("02/04/2015").getTime()));
+        List<DadosDividaLiquida> divida = serviceBC.findByData(new java.sql.Date(df.parse("02/04/2015").getTime()));
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -211,7 +211,7 @@ class DadosDividaLiquidaServiceTest {
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.findByDataBetween(
+        List<DadosDividaLiquida> divida = serviceBC.findByDataBetween(
                 new java.sql.Date(df.parse("01/07/2015").getTime()),
                 new java.sql.Date(df.parse("01/07/2016").getTime()));
 
@@ -234,7 +234,7 @@ class DadosDividaLiquidaServiceTest {
     void findByYear_ReturnsListOfDivida_WhenSuccessful(){
 
 
-        List<DadosDividaLiquida> divida = dividaLiquidaBCService.findByYear("2008");
+        List<DadosDividaLiquida> divida = serviceBC.findByYear("2008");
 
         Assertions.assertThat(divida).isNotNull().isEqualTo(List.of(DividaLiquidaBCCreator.createValidDivida()
         ));
@@ -246,7 +246,7 @@ class DadosDividaLiquidaServiceTest {
     @DisplayName("save returns divida when successful")
     void save_ReturnsDivida_WhenSuccessful(){
 
-        DadosDividaLiquida divida = dividaLiquidaBCService.save(DividaLiquidaBCCreator.createDividaToBeSaved());
+        DadosDividaLiquida divida = serviceBC.save(DividaLiquidaBCCreator.createDividaToBeSaved());
 
         Assertions.assertThat(divida).isNotNull().isEqualTo(DividaLiquidaBCCreator.createValidDivida());
 
@@ -256,7 +256,7 @@ class DadosDividaLiquidaServiceTest {
     @DisplayName("replace updates divida when successful")
     void replace_UpdatesDivida_WhenSuccessful(){
 
-        Assertions.assertThatCode(() ->dividaLiquidaBCService.replace(DividaLiquidaBCCreator.createValidUpdatedDivida()))
+        Assertions.assertThatCode(() -> serviceBC.replace(DividaLiquidaBCCreator.createValidUpdatedDivida()))
                 .doesNotThrowAnyException();
 
     }
@@ -265,7 +265,7 @@ class DadosDividaLiquidaServiceTest {
     @DisplayName("delete removes divida when successful")
     void delete_RemovesAnime_WhenSuccessful(){
 
-        Assertions.assertThatCode(() ->dividaLiquidaBCService.delete(1))
+        Assertions.assertThatCode(() -> serviceBC.delete(1))
                 .doesNotThrowAnyException();
 
     }

@@ -5,7 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class DivLiqURL {
+public class URLDiv {
 
     private String div;
 }
