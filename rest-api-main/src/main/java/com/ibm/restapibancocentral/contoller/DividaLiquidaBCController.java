@@ -66,7 +66,7 @@ public class DividaLiquidaBCController {
         return ResponseEntity.ok(dividaService.findByValor(valor));
     }
 
-    //busca por valor utilizando native query
+    //Buscando dados por valor (NativeQuery)
     @GetMapping(path = "/findvalor2/{valor2}")
     public ResponseEntity<List<DadosDividaLiquida>> findByValor2(@PathVariable double valor2) {
         return ResponseEntity.ok(dividaService.findByValor2(valor2));
