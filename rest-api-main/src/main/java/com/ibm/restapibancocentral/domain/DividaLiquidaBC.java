@@ -20,6 +20,7 @@ import java.util.Date;
 @Builder
 public class DividaLiquidaBC {
 
+    //Declaração das variáveis na classe domain.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
