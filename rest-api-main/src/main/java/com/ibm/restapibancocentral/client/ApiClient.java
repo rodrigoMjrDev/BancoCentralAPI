@@ -1,5 +1,7 @@
 package com.ibm.restapibancocentral.client;
 
+// MÉTODO ANTIGO
+
 //@Log4j2
 //@Configuration
 //public class ApiClient implements CommandLineRunner {
