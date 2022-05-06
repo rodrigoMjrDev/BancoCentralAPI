@@ -1,8 +1,6 @@
-package com.ibm.restapibancocentral.domain;
+package com.ibm.restapibancocentral.entities;
 
 import lombok.*;
-
-import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter

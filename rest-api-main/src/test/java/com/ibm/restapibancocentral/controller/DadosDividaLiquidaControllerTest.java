@@ -1,8 +1,8 @@
 package com.ibm.restapibancocentral.controller;
 
 import com.ibm.restapibancocentral.contoller.DividaLiquidaBCController;
-import com.ibm.restapibancocentral.domain.DivLiqURL;
-import com.ibm.restapibancocentral.domain.DividaLiquidaBC;
+import com.ibm.restapibancocentral.entities.DivLiqURL;
+import com.ibm.restapibancocentral.entities.DadosDividaLiquida;
 import com.ibm.restapibancocentral.service.DividaLiquidaBCService;
 import com.ibm.restapibancocentral.util.DivLiqURLCreator;
 import com.ibm.restapibancocentral.util.DividaLiquidaBCCreator;
@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ExtendWith(SpringExtension.class)
-public class DividaLiquidaBCControllerTest {
+public class DadosDividaLiquidaControllerTest {
 
     @InjectMocks
     private DividaLiquidaBCController dividaLiquidaBCController;
@@ -43,7 +43,7 @@ public class DividaLiquidaBCControllerTest {
         BDDMockito.when(dividaLiquidaBCMock.saveApi(ArgumentMatchers.any(DivLiqURL.class)))
                 .thenReturn(List.of(DividaLiquidaBCCreator.createValidDivida()));
 
-        PageImpl<DividaLiquidaBC> dividaPage = new PageImpl<>(List.of(DividaLiquidaBCCreator.createValidDivida()));
+        PageImpl<DadosDividaLiquida> dividaPage = new PageImpl<>(List.of(DividaLiquidaBCCreator.createValidDivida()));
         BDDMockito.when(dividaLiquidaBCMock.listPageable(ArgumentMatchers.any()))
                 .thenReturn(dividaPage);
 
@@ -71,10 +71,10 @@ public class DividaLiquidaBCControllerTest {
         BDDMockito.when(dividaLiquidaBCMock.getSum(ArgumentMatchers.anyString()))
                 .thenReturn(0.30);
 
-        BDDMockito.when(dividaLiquidaBCMock.save(ArgumentMatchers.any(DividaLiquidaBC.class)))
+        BDDMockito.when(dividaLiquidaBCMock.save(ArgumentMatchers.any(DadosDividaLiquida.class)))
                 .thenReturn(DividaLiquidaBCCreator.createValidDivida());
 
-        BDDMockito.doNothing().when(dividaLiquidaBCMock).replace(ArgumentMatchers.any(DividaLiquidaBC.class));
+        BDDMockito.doNothing().when(dividaLiquidaBCMock).replace(ArgumentMatchers.any(DadosDividaLiquida.class));
 
         BDDMockito.doNothing().when(dividaLiquidaBCMock).delete(ArgumentMatchers.anyLong());
     }
@@ -87,7 +87,7 @@ public class DividaLiquidaBCControllerTest {
         Date expectedData = DividaLiquidaBCCreator.createValidDivida().getData();
 
 
-        Page<DividaLiquidaBC> dividaPage = dividaLiquidaBCController.listPageable(null).getBody();
+        Page<DadosDividaLiquida> dividaPage = dividaLiquidaBCController.listPageable(null).getBody();
 
         Assertions.assertThat(dividaPage).isNotNull();
 
@@ -104,7 +104,7 @@ public class DividaLiquidaBCControllerTest {
     void listAll_ReturnsListOfDivida_WhenSuccessful(){
         Double expectedValue = DividaLiquidaBCCreator.createValidDivida().getValor();
 
-        List<DividaLiquidaBC> animes = dividaLiquidaBCController.listAll().getBody();
+        List<DadosDividaLiquida> animes = dividaLiquidaBCController.listAll().getBody();
 
         Assertions.assertThat(animes)
                 .isNotNull()
@@ -119,7 +119,7 @@ public class DividaLiquidaBCControllerTest {
     void findById_ReturnsDivida_WhenSuccessful(){
         Long expectedId = DividaLiquidaBCCreator.createValidDivida().getId();
 
-        DividaLiquidaBC divida = dividaLiquidaBCController.findById(1).getBody();
+        DadosDividaLiquida divida = dividaLiquidaBCController.findById(1).getBody();
 
         Assertions.assertThat(divida).isNotNull();
 
@@ -131,7 +131,7 @@ public class DividaLiquidaBCControllerTest {
     void findByValor_ReturnsListOfDivida_WhenSuccessful(){
         Double expectedName = DividaLiquidaBCCreator.createValidDivida().getValor();
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByValor(0.12).getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByValor(0.12).getBody();
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -146,7 +146,7 @@ public class DividaLiquidaBCControllerTest {
     void findByValor2_ReturnsListOfDivida_WhenSuccessful(){
         Double expectedName = DividaLiquidaBCCreator.createValidDivida().getValor();
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByValor2(0.12).getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByValor2(0.12).getBody();
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -162,7 +162,7 @@ public class DividaLiquidaBCControllerTest {
         BDDMockito.when(dividaLiquidaBCMock.findByValor(ArgumentMatchers.anyDouble()))
                 .thenReturn(Collections.emptyList());
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByValor(0.15).getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByValor(0.15).getBody();
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -176,7 +176,7 @@ public class DividaLiquidaBCControllerTest {
         BDDMockito.when(dividaLiquidaBCMock.findByValor2(ArgumentMatchers.anyDouble()))
                 .thenReturn(Collections.emptyList());
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByValor2(0.15).getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByValor2(0.15).getBody();
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -191,7 +191,7 @@ public class DividaLiquidaBCControllerTest {
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByData(new java.sql.Date(df.parse("02/04/2015").getTime())).getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByData(new java.sql.Date(df.parse("02/04/2015").getTime())).getBody();
 
         Assertions.assertThat(divida)
                 .isNotNull()
@@ -208,7 +208,7 @@ public class DividaLiquidaBCControllerTest {
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByDataBetween(
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByDataBetween(
                 new java.sql.Date(df.parse("01/07/2015").getTime()),
                 new java.sql.Date(df.parse("01/07/2016").getTime())).getBody();
 
@@ -224,7 +224,7 @@ public class DividaLiquidaBCControllerTest {
     @DisplayName("findByYear returns a list of divida when successful")
     void findByYear_ReturnsListOfDivida_WhenSuccessful(){
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.findByYear("2008").getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.findByYear("2008").getBody();
 
         Assertions.assertThat(divida).isNotNull().isEqualTo(List.of(DividaLiquidaBCCreator.createValidDivida()
         ));
@@ -245,7 +245,7 @@ public class DividaLiquidaBCControllerTest {
     @DisplayName("callApi returns divida when successful")
     void callApi_ReturnsDivida_WhenSuccessful(){
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.callApi().getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.callApi().getBody();
 
         Assertions.assertThat(divida).isNotNull().isEqualTo(List.of(DividaLiquidaBCCreator.createValidDivida()));
 
@@ -255,7 +255,7 @@ public class DividaLiquidaBCControllerTest {
     @DisplayName("saveAPi returns divida when successful")
     void saveApi_ReturnsDivida_WhenSuccessful(){
 
-        List<DividaLiquidaBC> divida = dividaLiquidaBCController.saveApi(DivLiqURLCreator.createDivLiqURLToBeSaved()).getBody();
+        List<DadosDividaLiquida> divida = dividaLiquidaBCController.saveApi(DivLiqURLCreator.createDivLiqURLToBeSaved()).getBody();
 
         Assertions.assertThat(divida).isNotNull().isEqualTo(List.of(DividaLiquidaBCCreator.createValidDivida()));
 
@@ -265,7 +265,7 @@ public class DividaLiquidaBCControllerTest {
     @DisplayName("save returns divida when successful")
     void save_ReturnsDivida_WhenSuccessful(){
 
-        DividaLiquidaBC divida = dividaLiquidaBCController.save(DividaLiquidaBCCreator.createDividaToBeSaved()).getBody();
+        DadosDividaLiquida divida = dividaLiquidaBCController.save(DividaLiquidaBCCreator.createDividaToBeSaved()).getBody();
 
         Assertions.assertThat(divida).isNotNull().isEqualTo(DividaLiquidaBCCreator.createValidDivida());
 

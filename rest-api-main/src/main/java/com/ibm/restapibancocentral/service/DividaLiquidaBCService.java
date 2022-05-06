@@ -1,7 +1,7 @@
 package com.ibm.restapibancocentral.service;
 
-import com.ibm.restapibancocentral.domain.DivLiqURL;
-import com.ibm.restapibancocentral.domain.DividaLiquidaBC;
+import com.ibm.restapibancocentral.entities.DivLiqURL;
+import com.ibm.restapibancocentral.entities.DadosDividaLiquida;
 import com.ibm.restapibancocentral.exeception.BadRequestException;
 import com.ibm.restapibancocentral.repository.DividaLiquidaBCRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +31,13 @@ public class DividaLiquidaBCService {
     private static final String DIVIDA_API = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.4505/dados?formato=json";
 
     @Transactional
-    public List<DividaLiquidaBC> callApi() {
+    public List<DadosDividaLiquida> callApi() {
 
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<DividaLiquidaBC>> response = restTemplate.exchange(DIVIDA_API, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DadosDividaLiquida>> response = restTemplate.exchange(DIVIDA_API, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
 
-        List<DividaLiquidaBC> listaDivida = response.getBody();
+        List<DadosDividaLiquida> listaDivida = response.getBody();
 
         if (listaDivida != null) {
             return dividaRepository.saveAll(listaDivida);
@@ -46,13 +46,13 @@ public class DividaLiquidaBCService {
     }
 
     @Transactional
-    public List<DividaLiquidaBC> saveApi(DivLiqURL div) {
+    public List<DadosDividaLiquida> saveApi(DivLiqURL div) {
 
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-        ResponseEntity<List<DividaLiquidaBC>> response = restTemplate.exchange(div.getDiv(), HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
+        ResponseEntity<List<DadosDividaLiquida>> response = restTemplate.exchange(div.getDiv(), HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
 
-        List<DividaLiquidaBC> listaDivida = response.getBody();
+        List<DadosDividaLiquida> listaDivida = response.getBody();
 
         if (listaDivida != null) {
             return dividaRepository.saveAll(listaDivida);
@@ -61,42 +61,42 @@ public class DividaLiquidaBCService {
 
     }
 
-    public Page<DividaLiquidaBC> listPageable(Pageable pageable) {
+    public Page<DadosDividaLiquida> listPageable(Pageable pageable) {
         return dividaRepository.findAll(pageable);
     }
 
-    public List<DividaLiquidaBC> listAll() {
+    public List<DadosDividaLiquida> listAll() {
         return dividaRepository.findAll();
     }
 
-    public List<DividaLiquidaBC> findByValor(Double valor) {
+    public List<DadosDividaLiquida> findByValor(Double valor) {
         return dividaRepository.findByValor(valor);
     }
 
-    public List<DividaLiquidaBC> findByValor2(Double valor) {
+    public List<DadosDividaLiquida> findByValor2(Double valor) {
         return dividaRepository.findByValor2(valor);
     }
 
-    public List<DividaLiquidaBC> findByDataBetween(Date startDate, Date endDate) {
+    public List<DadosDividaLiquida> findByDataBetween(Date startDate, Date endDate) {
         return dividaRepository.findByDataBetween(startDate, endDate);
     }
 
 
-    public List<DividaLiquidaBC> findByData(Date data)  {
+    public List<DadosDividaLiquida> findByData(Date data)  {
         return dividaRepository.findByData(data);
     }
 
-    public DividaLiquidaBC findByIdOrThrowBadRequestException(long id) {
+    public DadosDividaLiquida findByIdOrThrowBadRequestException(long id) {
         return dividaRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Divida not Found"));
     }
 
-    public List<DividaLiquidaBC> findByYear(String year) {
+    public List<DadosDividaLiquida> findByYear(String year) {
         return dividaRepository.findByYear(year);
     }
 
     public Double getSum(String year) {
-        List<DividaLiquidaBC> byYear = dividaRepository.findByYear(year);
+        List<DadosDividaLiquida> byYear = dividaRepository.findByYear(year);
 
         double sum = 0;
 
@@ -107,7 +107,7 @@ public class DividaLiquidaBCService {
     }
 
     @Transactional
-    public DividaLiquidaBC save(DividaLiquidaBC divida) {
+    public DadosDividaLiquida save(DadosDividaLiquida divida) {
         return dividaRepository.save(divida);
     }
 
@@ -115,8 +115,8 @@ public class DividaLiquidaBCService {
         dividaRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 
-    public void replace(DividaLiquidaBC divida) {
-        DividaLiquidaBC savedDivida = findByIdOrThrowBadRequestException(divida.getId());
+    public void replace(DadosDividaLiquida divida) {
+        DadosDividaLiquida savedDivida = findByIdOrThrowBadRequestException(divida.getId());
         divida.setId(savedDivida.getId());
         dividaRepository.save(divida);
     }

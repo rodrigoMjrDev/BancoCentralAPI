@@ -1,7 +1,7 @@
 package com.ibm.restapibancocentral.contoller;
 
-import com.ibm.restapibancocentral.domain.DivLiqURL;
-import com.ibm.restapibancocentral.domain.DividaLiquidaBC;
+import com.ibm.restapibancocentral.entities.DivLiqURL;
+import com.ibm.restapibancocentral.entities.DadosDividaLiquida;
 import com.ibm.restapibancocentral.service.DividaLiquidaBCService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,54 +32,54 @@ public class DividaLiquidaBCController {
 
     //Chamando API - A URL está declarada na(o) package/classe Service/DividaLiquidaBCService
     @GetMapping(path = "/api")
-    public ResponseEntity<List<DividaLiquidaBC>> callApi() {
-        List<DividaLiquidaBC> listaDivida = dividaService.callApi();
+    public ResponseEntity<List<DadosDividaLiquida>> callApi() {
+        List<DadosDividaLiquida> listaDivida = dividaService.callApi();
         log.info(String.valueOf(listaDivida));
         return ResponseEntity.ok(listaDivida);
     }
 
     //save api - URL será passado no body
     @PostMapping(path = "/saveapi")
-    public ResponseEntity<List<DividaLiquidaBC>> saveApi(@RequestBody @Valid DivLiqURL div) {
+    public ResponseEntity<List<DadosDividaLiquida>> saveApi(@RequestBody @Valid DivLiqURL div) {
         return ResponseEntity.ok(dividaService.saveApi(div));
     }
 
     @Operation(summary = "List all divida paginated", description = "The default size is 20, use the parameter size to change the default value",
             tags = {"divida-paginated"})
     @GetMapping(path = "/pageable")
-    public ResponseEntity<Page<DividaLiquidaBC>> listPageable(@ParameterObject Pageable pageable) {
+    public ResponseEntity<Page<DadosDividaLiquida>> listPageable(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(dividaService.listPageable(pageable));
     }
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<DividaLiquidaBC>> listAll() {
+    public ResponseEntity<List<DadosDividaLiquida>> listAll() {
         return ResponseEntity.ok(dividaService.listAll());
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<DividaLiquidaBC> findById(@PathVariable long id) {
+    public ResponseEntity<DadosDividaLiquida> findById(@PathVariable long id) {
         return ResponseEntity.ok(dividaService.findByIdOrThrowBadRequestException(id));
     }
 
     @GetMapping(path = "/findvalor/{valor}")
-    public ResponseEntity<List<DividaLiquidaBC>> findByValor(@PathVariable double valor) {
+    public ResponseEntity<List<DadosDividaLiquida>> findByValor(@PathVariable double valor) {
         return ResponseEntity.ok(dividaService.findByValor(valor));
     }
 
     //busca por valor utilizando native query
     @GetMapping(path = "/findvalor2/{valor2}")
-    public ResponseEntity<List<DividaLiquidaBC>> findByValor2(@PathVariable double valor2) {
+    public ResponseEntity<List<DadosDividaLiquida>> findByValor2(@PathVariable double valor2) {
         return ResponseEntity.ok(dividaService.findByValor2(valor2));
     }
 
     @GetMapping(path = "/date")
-    public ResponseEntity<List<DividaLiquidaBC>> findByData(
+    public ResponseEntity<List<DadosDividaLiquida>> findByData(
             @RequestParam Date data) throws ParseException {
         return ResponseEntity.ok(dividaService. findByData(data));
     }
 
     @GetMapping("/intevaldate")
-    public ResponseEntity<List<DividaLiquidaBC>> findByDataBetween (
+    public ResponseEntity<List<DadosDividaLiquida>> findByDataBetween (
             @RequestParam Date startDate,
             @RequestParam Date endDate) {
         return ResponseEntity.ok(dividaService.findByDataBetween(startDate, endDate));
@@ -87,7 +87,7 @@ public class DividaLiquidaBCController {
 
 
     @GetMapping(path = "/findbyyear")
-    public ResponseEntity<List<DividaLiquidaBC>> findByYear(@RequestParam String year) {
+    public ResponseEntity<List<DadosDividaLiquida>> findByYear(@RequestParam String year) {
         return ResponseEntity.ok(dividaService.findByYear(year));
     }
 
@@ -97,7 +97,7 @@ public class DividaLiquidaBCController {
     }
 
     @PostMapping(path = "/save")
-    public ResponseEntity<DividaLiquidaBC> save(@RequestBody @Valid DividaLiquidaBC divida) {
+    public ResponseEntity<DadosDividaLiquida> save(@RequestBody @Valid DadosDividaLiquida divida) {
         return new ResponseEntity<>(dividaService.save(divida), HttpStatus.CREATED);
     }
 
@@ -112,7 +112,7 @@ public class DividaLiquidaBCController {
     }
 
     @PutMapping(path = "/replace")
-    public ResponseEntity<Void> replace(@RequestBody DividaLiquidaBC divida) {
+    public ResponseEntity<Void> replace(@RequestBody DadosDividaLiquida divida) {
         dividaService.replace(divida);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
