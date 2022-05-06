@@ -30,7 +30,7 @@ public class DividaLiquidaBCController {
 
     Logger log = LoggerFactory.getLogger(DividaLiquidaBCService.class);
 
-    //call api - URL já definida na classe Service
+    //Chamando API - A URL está declarada na(o) package/classe Service/DividaLiquidaBCService
     @GetMapping(path = "/api")
     public ResponseEntity<List<DividaLiquidaBC>> callApi() {
         List<DividaLiquidaBC> listaDivida = dividaService.callApi();
